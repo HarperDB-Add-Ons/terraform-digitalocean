@@ -32,10 +32,11 @@ runcmd:
   - sudo apt-get update
   - sudo apt-get install -yq docker-ce docker-ce-cli containerd.io docker-compose-plugin
   - sudo mkdir harperdb
+  - sudo chmod 755 harperdb
   - sudo docker run -d \
     -v $(pwd)/harperdb:/home/harperdb/hdb \
     -e HDB_ADMIN_USERNAME=HDB_ADMIN \
     -e HDB_ADMIN_PASSWORD=password \
     -p 9925:9925 \
     -p 9926:9926 \
-    harperdb/harperdb:3.3.0
+    harperdb/harperdb

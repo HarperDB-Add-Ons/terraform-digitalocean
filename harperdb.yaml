@@ -1,6 +1,6 @@
 #cloud-config
 groups:
-  - ubuntu: [root,sys]
+  - ubuntu: [root, sys]
   - hashicorp
 
 # Add users to the system. Users are added after groups are added.
@@ -19,24 +19,12 @@ users:
 
 runcmd:
   - sudo apt-get update
-  - sudo apt-get install -yq \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+  - sudo apt-get install -yq ca-certificates curl gnupg lsb-release
   - sudo mkdir -p /etc/apt/keyrings
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes
-  - echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   - sudo apt-get update
   - sudo apt-get install -yq docker-ce docker-ce-cli containerd.io docker-compose-plugin
   - sudo mkdir harperdb
   - sudo chmod 755 harperdb
-  - sudo docker run -d \
-    -v $(pwd)/harperdb:/home/harperdb/hdb \
-    -e HDB_ADMIN_USERNAME=HDB_ADMIN \
-    -e HDB_ADMIN_PASSWORD=password \
-    -p 9925:9925 \
-    -p 9926:9926 \
-    harperdb/harperdb
+  - sudo docker run -d -v $(pwd)/harperdb:/home/harperdb/hdb -e HDB_ADMIN_USERNAME=HDB_ADMIN -e HDB_ADMIN_PASSWORD=password -p 9925:9925 -p 9926:9926 harperdb/harperdb
